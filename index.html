@@ -1,247 +1,192 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>ITT 1878 · Parte Servicio Campo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Parte de Servicio – ITT 1878</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-body{
-  font-family:'Inter',sans-serif;
-  background:
-    linear-gradient(rgba(15,23,42,.78), rgba(15,23,42,.78)),
-    url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEBAQEhIVDxAPDxAPDxAQEA8QEA8PFRUWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMvNygtLisBCgoKDg0OFg8QFysdFR0rKysrLS0rLS0rKystLSstLS0tKy0tLSstKysrKysrLS0tNzctKy0tLSsrLTcrLTc3Lf/AABEIALcBEwMBIgACEQEDEQH/...");
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-  min-height:100vh;
-}
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-.page{display:none}
-.page.active{display:block}
-
-.card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 15px 30px rgba(0,0,0,.35);
-}
-
-.input{
-  width:100%;
-  border:1px solid #cbd5f5;
-  border-radius:12px;
-  padding:10px;
-  font-size:14px;
-}
-
-.label{
-  font-size:13px;
-  color:#334155;
-  font-weight:500;
-}
-
-canvas{
-  border:1px dashed #94a3b8;
-  border-radius:8px;
-}
-</style>
+  <!-- Signature Pad -->
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 </head>
 
-<body class="p-4">
-<div class="max-w-md mx-auto card space-y-4">
+<body
+  class="min-h-screen bg-cover bg-center flex items-center justify-center"
+  style="background-image: url('assets/bg/workshop.jpg');"
+>
 
-<h1 class="text-center font-semibold text-gray-700">
-Parte de Servicio – ITT 1878
-</h1>
+<div class="bg-white/95 rounded-xl shadow-2xl w-full max-w-md p-6">
 
-<!-- PÁGINA 1 -->
-<div class="page active">
-  <div class="label">Operario *</div>
-  <input id="operario" class="input">
+  <!-- LOGOS -->
+  <div class="flex justify-center items-center gap-4 mb-4 flex-wrap">
+    <img src="assets/logos/logo-itt-cm93.png" class="h-10" alt="ITT CM93">
+    <img src="assets/logos/logo-case.png" class="h-10" alt="CASE">
+    <img src="assets/logos/logo-manitou.png" class="h-10" alt="MANITOU">
+    <img src="assets/logos/logo-itt-1878.png" class="h-10" alt="ITT 1878">
+  </div>
 
-  <div class="label mt-2">Vehículo</div>
-  <input id="vehiculo" class="input">
+  <h1 class="text-center font-bold text-lg mb-4">Parte de Servicio – ITT 1878</h1>
 
-  <div class="label mt-2">Nº OT *</div>
-  <input id="ot" class="input">
+  <!-- FORMULARIO MULTIPÁGINA -->
+  <form id="formulario">
 
-  <div class="label mt-2">Fecha *</div>
-  <input type="date" id="fecha" class="input">
+    <!-- PÁGINA 1 -->
+    <div class="pagina">
+      <label class="block mb-2">Operario *</label>
+      <input required class="input" type="text">
+
+      <label class="block mt-3 mb-2">Vehículo</label>
+      <input class="input" type="text">
+
+      <label class="block mt-3 mb-2">Nº OT *</label>
+      <input required class="input" type="text">
+
+      <label class="block mt-3 mb-2">Fecha *</label>
+      <input required class="input" type="date">
+    </div>
+
+    <!-- PÁGINA 2 -->
+    <div class="pagina hidden">
+      <label class="block mb-2">Cliente *</label>
+      <input required class="input" type="text">
+
+      <label class="block mt-3 mb-2">Dirección *</label>
+      <input required class="input" type="text">
+
+      <label class="block mt-3 mb-2">Teléfono</label>
+      <input class="input" type="text">
+
+      <label class="block mt-3 mb-2">Email</label>
+      <input class="input" type="email">
+    </div>
+
+    <!-- PÁGINA 3 -->
+    <div class="pagina hidden">
+      <label class="block mb-2">Marca *</label>
+      <input required class="input" type="text">
+
+      <label class="block mt-3 mb-2">Modelo *</label>
+      <input required class="input" type="text">
+
+      <label class="block mt-3 mb-2">Nº Serie *</label>
+      <input required class="input" type="text">
+    </div>
+
+    <!-- PÁGINA 4 -->
+    <div class="pagina hidden">
+      <label class="block mb-2">Descripción del problema *</label>
+      <textarea required class="input h-32"></textarea>
+    </div>
+
+    <!-- PÁGINA 5 – MANO DE OBRA -->
+    <div class="pagina hidden">
+      <label class="block mb-2">H. Salida</label>
+      <select class="input"></select>
+
+      <label class="block mt-3 mb-2">H. Llegada</label>
+      <select class="input"></select>
+
+      <label class="block mt-3 mb-2">Inicio trabajos *</label>
+      <select required class="input"></select>
+
+      <label class="block mt-3 mb-2">Fin trabajos *</label>
+      <select required class="input"></select>
+
+      <label class="block mt-3 mb-2">KM realizados</label>
+      <input class="input" type="number">
+    </div>
+
+    <!-- PÁGINA 6 -->
+    <div class="pagina hidden">
+      <label class="block mb-2">Trabajos efectuados *</label>
+      <textarea required class="input h-24"></textarea>
+
+      <label class="block mt-3 mb-2">Materiales</label>
+      <textarea class="input h-20"></textarea>
+
+      <label class="block mt-3 mb-2">Observaciones</label>
+      <textarea class="input h-20"></textarea>
+    </div>
+
+    <!-- PÁGINA 7 – FIRMAS -->
+    <div class="pagina hidden">
+      <p class="font-semibold mb-2">Firma Operario</p>
+      <canvas id="firmaOperario" class="border w-full h-32 mb-4"></canvas>
+
+      <p class="font-semibold mb-2">Firma Cliente</p>
+      <canvas id="firmaCliente" class="border w-full h-32 mb-4"></canvas>
+
+      <button type="button" onclick="generarPDF()" class="w-full bg-black text-white py-2 rounded">
+        Enviar y generar parte de trabajo
+      </button>
+    </div>
+
+  </form>
+
+  <!-- NAVEGACIÓN -->
+  <div class="flex justify-between mt-4">
+    <button id="btnAtras" class="px-4 py-2 bg-gray-200 rounded">⬅ Atrás</button>
+    <button id="btnSiguiente" class="px-4 py-2 bg-black text-white rounded">Siguiente ➡</button>
+  </div>
+
 </div>
 
-<!-- PÁGINA 2 -->
-<div class="page">
-  <div class="label">Cliente *</div>
-  <input id="cliente" class="input">
-
-  <div class="label mt-2">Población *</div>
-  <input id="poblacion" class="input">
-
-  <div class="label mt-2">Teléfono</div>
-  <input id="telefono" class="input">
-
-  <div class="label mt-2">Email</div>
-  <input id="email" class="input">
-</div>
-
-<!-- PÁGINA 3 -->
-<div class="page">
-  <div class="label">Marca *</div>
-  <input id="marca" class="input">
-
-  <div class="label mt-2">Modelo *</div>
-  <input id="modelo" class="input">
-
-  <div class="label mt-2">Horas máquina</div>
-  <input id="horas" class="input">
-
-  <div class="label mt-2">Bastidor *</div>
-  <input id="bastidor" class="input">
-</div>
-
-<!-- PÁGINA 4 -->
-<div class="page">
-  <div class="label">Descripción del problema *</div>
-  <textarea id="problema" class="input h-32"></textarea>
-</div>
-
-<!-- PÁGINA 5 -->
-<div class="page">
-  <div class="label">H. Salida</div>
-  <select id="hSalida" class="input"></select>
-
-  <div class="label mt-2">H. Llegada</div>
-  <select id="hLlegada" class="input"></select>
-
-  <div class="label mt-4">Inicio trabajos *</div>
-  <select id="inicioTrabajos" class="input"></select>
-
-  <div class="label mt-2">Fin trabajos *</div>
-  <select id="finTrabajos" class="input"></select>
-</div>
-
-<!-- PÁGINA 6 -->
-<div class="page">
-  <div class="label">Trabajos efectuados *</div>
-  <textarea id="trabajos" class="input h-24"></textarea>
-
-  <div class="label mt-2">Materiales</div>
-  <textarea id="materiales" class="input h-20"></textarea>
-
-  <div class="label mt-2">Observaciones</div>
-  <textarea id="observaciones" class="input h-20"></textarea>
-</div>
-
-<!-- PÁGINA 7 -->
-<div class="page">
-  <div class="label">Firma Cliente *</div>
-  <canvas id="firmaCliente" width="280" height="100"></canvas>
-
-  <div class="label mt-3">Firma Operario *</div>
-  <canvas id="firmaOperario" width="280" height="100"></canvas>
-
-  <button
-    onclick="finalizar()"
-    class="mt-6 w-full bg-gray-800 text-white py-3 rounded-xl text-lg font-medium">
-    Enviar y generar parte de trabajo
-  </button>
-</div>
-
-<!-- NAVEGACIÓN -->
-<div class="flex justify-between pt-4">
-  <button onclick="prev()" class="px-4 py-2 bg-gray-200 rounded">⬅️ Atrás</button>
-  <button onclick="next()" class="px-4 py-2 bg-gray-800 text-white rounded">
-    Siguiente ➡️
-  </button>
-</div>
-
-</div>
+<style>
+  .input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+  }
+</style>
 
 <script>
-const { jsPDF } = window.jspdf;
-let current = 0;
-const pages = document.querySelectorAll('.page');
+  const paginas = document.querySelectorAll('.pagina');
+  let actual = 0;
 
-const firmaCl = new SignaturePad(firmaCliente);
-const firmaOp = new SignaturePad(firmaOperario);
-
-// Horarios 06:00–20:00
-document.querySelectorAll('select').forEach(sel=>{
-  sel.innerHTML='<option value="">--</option>';
-  for(let h=6;h<=20;h++){
-    ['00','15','30','45'].forEach(m=>{
-      if(h===20 && m!=='00') return;
-      sel.innerHTML+=`<option>${String(h).padStart(2,'0')}:${m}</option>`;
-    });
-  }
-});
-
-function show(){
-  pages.forEach(p=>p.classList.remove('active'));
-  pages[current].classList.add('active');
-}
-
-function prev(){
-  if(current > 0){ current--; show(); }
-}
-
-function next(){
-  if(!validarPagina()){
-    alert("Completa los campos obligatorios de esta página");
-    return;
-  }
-  if(current < pages.length - 1){
-    current++;
-    show();
-  }
-}
-
-function validarPagina(){
-  switch(current){
-    case 0: return operario.value && ot.value && fecha.value;
-    case 1: return cliente.value && poblacion.value;
-    case 2: return marca.value && modelo.value && bastidor.value;
-    case 3: return problema.value;
-    case 4: return inicioTrabajos.value && finTrabajos.value;
-    case 5: return trabajos.value;
-    default: return true;
-  }
-}
-
-function finalizar(){
-  if(!firmaCl.toData().length || !firmaOp.toData().length){
-    alert("Faltan firmas");
-    return;
+  function mostrarPagina() {
+    paginas.forEach((p, i) => p.classList.toggle('hidden', i !== actual));
   }
 
-  const doc = new jsPDF();
-  let y = 10;
-  const t = (l,v)=>{ doc.text(`${l}: ${v||''}`,10,y); y+=6; };
+  document.getElementById('btnSiguiente').onclick = () => {
+    if (actual < paginas.length - 1) actual++;
+    mostrarPagina();
+  };
 
-  t("Operario",operario.value);
-  t("Vehículo",vehiculo.value);
-  t("OT",ot.value);
-  t("Fecha",fecha.value);
-  t("Cliente",cliente.value);
+  document.getElementById('btnAtras').onclick = () => {
+    if (actual > 0) actual--;
+    mostrarPagina();
+  };
 
-  y+=4;
-  doc.text("Descripción del problema:",10,y); y+=6;
-  doc.text(doc.splitTextToSize(problema.value,180),10,y);
+  // Horarios
+  document.querySelectorAll('select').forEach(sel => {
+    for (let h = 6; h <= 20; h++) {
+      ['00','30'].forEach(m => {
+        const o = document.createElement('option');
+        o.value = `${String(h).padStart(2,'0')}:${m}`;
+        o.text = o.value;
+        sel.appendChild(o);
+      });
+    }
+  });
 
-  doc.addImage(firmaCl.toDataURL(),"PNG",10,230,80,30);
-  doc.addImage(firmaOp.toDataURL(),"PNG",110,230,80,30);
+  // Firmas
+  const firmaOp = new SignaturePad(document.getElementById('firmaOperario'));
+  const firmaCl = new SignaturePad(document.getElementById('firmaCliente'));
 
-  doc.save(`parte_${ot.value}.pdf`);
-
-  location.href =
-    `mailto:?subject=Parte de trabajo OT ${ot.value}&body=Parte de trabajo generado correctamente`;
-}
+  function generarPDF() {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+    pdf.text("Parte de Servicio – ITT 1878", 10, 10);
+    pdf.text("Documento generado correctamente", 10, 20);
+    pdf.save("parte-servicio.pdf");
+  }
 </script>
+
 </body>
 </html>
