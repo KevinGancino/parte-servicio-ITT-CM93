@@ -1,161 +1,178 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Parte de Servicio – ITT 1878</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<title>Parte de Servicio – ITT 1878</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-  <!-- jsPDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-  <style>
-    body {
-      background: url("assets/bg/workshop.jpg") no-repeat center center fixed;
-      background-size: cover;
-    }
-  </style>
+<style>
+body{
+  background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat
+}
+.page{display:none}
+.page.active{display:block}
+.input{
+  width:100%;
+  border:1px solid #ccc;
+  padding:8px;
+  border-radius:6px;
+}
+</style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center">
+<body class="min-h-screen flex justify-center items-center">
 
-  <div class="bg-white/95 w-full max-w-xl rounded-xl shadow-xl p-6">
+<div class="bg-white/95 w-full max-w-xl p-6 rounded-xl shadow-xl">
 
-    <!-- LOGOS -->
-    <div class="text-center mb-4">
-      <img src="assets/logos/logo-itt-1878.png" class="mx-auto h-16 mb-3" />
-      <div class="flex justify-center gap-4">
-        <img src="assets/logos/logo-itt-cm93.png" class="h-10" />
-        <img src="assets/logos/logo-case.jfif" class="h-10" />
-        <img src="assets/logos/logo-manitou.png" class="h-10" />
-      </div>
-    </div>
-
-    <h2 class="text-center text-xl font-bold mb-4">Parte de Servicio – ITT 1878</h2>
-
-    <!-- FORMULARIO -->
-    <form id="parteForm" class="space-y-3">
-
-      <input id="operario" class="w-full border rounded p-2" placeholder="Operario *" required />
-      <input id="vehiculo" class="w-full border rounded p-2" placeholder="Vehículo" />
-      <input id="ot" class="w-full border rounded p-2" placeholder="Nº OT *" required />
-      <input id="fecha" type="date" class="w-full border rounded p-2" required />
-
-      <textarea id="trabajos" class="w-full border rounded p-2" rows="4"
-        placeholder="Descripción de trabajos realizados"></textarea>
-
-      <input id="horas" class="w-full border rounded p-2" placeholder="Horas mano de obra" />
-      <input id="km" class="w-full border rounded p-2" placeholder="Kilómetros realizados" />
-
-      <!-- FIRMA -->
-      <p class="text-sm font-semibold mt-4">Firma del operario</p>
-      <canvas id="firma" class="border w-full h-32"></canvas>
-      <button type="button" onclick="limpiarFirma()" class="text-sm text-blue-600">Limpiar firma</button>
-
-      <button type="submit"
-        class="w-full bg-black text-white py-2 rounded font-semibold mt-4">
-        Finalizar y enviar
-      </button>
-    </form>
+<!-- LOGOS -->
+<div class="text-center mb-4">
+  <img src="assets/logos/logo-itt-1878.png" class="h-14 mx-auto mb-2">
+  <div class="flex justify-center gap-4">
+    <img src="assets/logos/logo-itt-cm93.png" class="h-8">
+    <img src="assets/logos/logo-case.jfif" class="h-8">
+    <img src="assets/logos/logo-manitou.png" class="h-8">
   </div>
+</div>
+
+<h2 class="text-center font-bold text-lg mb-4">
+  Parte de Servicio – ITT 1878
+</h2>
+
+<form id="form">
+
+<!-- PÁGINA 1 -->
+<div class="page active">
+  <input name="operario" placeholder="Operario *" class="input">
+  <input name="vehiculo" placeholder="Vehículo" class="input mt-2">
+  <input name="ot" placeholder="Nº OT *" class="input mt-2">
+  <input type="date" name="fecha" class="input mt-2">
+</div>
+
+<!-- PÁGINA 2 -->
+<div class="page">
+  <textarea name="trabajo" placeholder="Trabajo realizado" class="input h-28"></textarea>
+</div>
+
+<!-- PÁGINA 3 -->
+<div class="page">
+  <input name="horas" type="number" step="0.1" placeholder="Horas mano de obra" class="input">
+  <input name="km" type="number" placeholder="Kilómetros realizados" class="input mt-2">
+</div>
+
+<!-- PÁGINA 4 -->
+<div class="page">
+  <textarea name="materiales" placeholder="Materiales utilizados" class="input h-24"></textarea>
+  <textarea name="obs" placeholder="Observaciones" class="input h-24 mt-2"></textarea>
+</div>
+
+<!-- PÁGINA 5 -->
+<div class="page">
+  <p class="font-semibold mb-1">Firma del operario</p>
+  <canvas id="firma" class="border w-full h-32"></canvas>
+</div>
+
+<!-- PÁGINA FINAL -->
+<div class="page">
+  <button type="button" onclick="finalizar()" class="w-full bg-black text-white py-2 rounded">
+    Generar PDF y Enviar
+  </button>
+</div>
+
+<div class="flex justify-between mt-4">
+  <button type="button" onclick="prev()" class="px-4 py-2 bg-gray-200 rounded">Atrás</button>
+  <button type="button" onclick="next()" class="px-4 py-2 bg-black text-white rounded">Siguiente</button>
+</div>
+
+</form>
+</div>
 
 <script>
-/* ================= EMAILJS INIT ================= */
+/* ================= EMAILJS ================= */
 emailjs.init("YUPi8RN6-nphAC3p-");
 
+/* ================= PAGINACIÓN ================= */
+const pages=document.querySelectorAll('.page');
+let i=0;
+function show(){
+  pages.forEach(p=>p.classList.remove('active'));
+  pages[i].classList.add('active');
+}
+function next(){ if(i<pages.length-1){i++;show()} }
+function prev(){ if(i>0){i--;show()} }
+
 /* ================= FIRMA ================= */
-const canvas = document.getElementById("firma");
-const ctx = canvas.getContext("2d");
-let dibujando = false;
-
-canvas.addEventListener("mousedown", () => dibujando = true);
-canvas.addEventListener("mouseup", () => dibujando = false);
-canvas.addEventListener("mousemove", e => {
-  if (!dibujando) return;
-  ctx.lineWidth = 2;
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-});
-
-function limpiarFirma() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+const canvas=document.getElementById('firma');
+const ctx=canvas.getContext('2d');
+let draw=false;
+canvas.onmousedown=()=>{draw=true;ctx.beginPath()}
+canvas.onmouseup=()=>draw=false;
+canvas.onmousemove=e=>{
+  if(draw){
+    ctx.lineTo(e.offsetX,e.offsetY);
+    ctx.stroke();
+  }
 }
 
-/* ================= FORM SUBMIT ================= */
-document.getElementById("parteForm").addEventListener("submit", async e => {
-  e.preventDefault();
-
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF();
+/* ================= FINALIZAR ================= */
+function finalizar(){
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF();
 
   /* LOGOS PDF */
-  const logoITT = await cargarImg("assets/logos/logo-itt-1878.png");
-  const logoCM = await cargarImg("assets/logos/logo-itt-cm93.png");
-
-  pdf.addImage(logoITT, "PNG", 80, 5, 50, 20);
-  pdf.addImage(logoCM, "PNG", 10, 5, 30, 15);
+  pdf.addImage("assets/logos/logo-itt-1878.png","PNG",80,5,50,20);
+  pdf.addImage("assets/logos/logo-itt-cm93.png","PNG",10,5,30,15);
 
   pdf.setFontSize(14);
-  pdf.text("PARTE DE SERVICIO – ITT 1878", 105, 35, { align: "center" });
+  pdf.text("PARTE DE SERVICIO – ITT 1878",105,35,{align:"center"});
 
   pdf.setFontSize(10);
-  let y = 50;
+  let y=50;
 
-  const campo = (label, value) => {
-    pdf.text(`${label}: ${value}`, 15, y);
-    y += 8;
-  };
+  const f=new FormData(document.getElementById("form"));
+  const campo=(l,v)=>{pdf.text(`${l}: ${v||"-"}`,10,y);y+=8};
 
-  campo("Operario", operario.value);
-  campo("Vehículo", vehiculo.value);
-  campo("Nº OT", ot.value);
-  campo("Fecha", fecha.value);
-  campo("Horas MO", horas.value);
-  campo("Kilómetros", km.value);
+  campo("Operario",f.get("operario"));
+  campo("Vehículo",f.get("vehiculo"));
+  campo("Nº OT",f.get("ot"));
+  campo("Fecha",f.get("fecha"));
+  campo("Horas mano de obra",f.get("horas"));
+  campo("Kilómetros",f.get("km"));
 
-  y += 5;
-  pdf.text("Trabajos realizados:", 15, y);
-  y += 6;
-  pdf.text(trabajos.value || "-", 15, y, { maxWidth: 180 });
+  y+=5;
+  pdf.text("Trabajo realizado:",10,y); y+=6;
+  pdf.text(f.get("trabajo")||"-",10,y,{maxWidth:190});
 
-  /* FIRMA PDF */
-  const firmaImg = canvas.toDataURL("image/png");
-  pdf.addImage(firmaImg, "PNG", 15, 220, 60, 25);
-  pdf.text("Firma operario", 15, 215);
+  y+=20;
+  pdf.text("Materiales:",10,y); y+=6;
+  pdf.text(f.get("materiales")||"-",10,y,{maxWidth:190});
 
-  /* BASE64 */
+  y+=20;
+  pdf.text("Observaciones:",10,y); y+=6;
+  pdf.text(f.get("obs")||"-",10,y,{maxWidth:190});
+
+  pdf.addImage(canvas.toDataURL(),"PNG",10,240,60,30);
+  pdf.text("Firma operario",10,235);
+
   const pdfBase64 = pdf.output("datauristring").split(",")[1];
 
-  /* EMAILJS */
-  emailjs.send("service_k44yx7g", "template_6i0hl7v", {
-    to_email: "kevin.gancino@cm93.com",
-    operario: operario.value,
-    ot: ot.value,
-    pdf_base64: pdfBase64
-  }).then(() => {
+  emailjs.send("service_k44yx7g","template_6i0hl7v",{
+    to_email:"kevin.gancino@cm93.com",
+    pdf_base64:pdfBase64,
+    ot:f.get("ot"),
+    operario:f.get("operario")
+  }).then(()=>{
     alert("Parte enviado correctamente");
     location.reload();
-  }).catch(err => {
+  }).catch(e=>{
+    console.error(e);
     alert("Error al enviar el parte");
-    console.error(err);
-  });
-});
-
-/* ================= UTIL ================= */
-function cargarImg(src) {
-  return new Promise(res => {
-    const img = new Image();
-    img.onload = () => res(img);
-    img.src = src;
   });
 }
 </script>
 
 </body>
 </html>
-
