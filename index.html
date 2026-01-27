@@ -11,15 +11,15 @@
 
 <style>
 body{
-  background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat
+  background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat;
 }
 .page{display:none}
 .page.active{display:block}
 .input{
   width:100%;
   border:1px solid #ccc;
-  padding:8px;
-  border-radius:6px;
+  padding:10px;
+  border-radius:8px;
 }
 </style>
 </head>
@@ -38,71 +38,71 @@ body{
   </div>
 </div>
 
-<h2 class="text-center font-bold text-lg mb-4">
-  Parte de Servicio – ITT 1878
-</h2>
+<h2 class="text-center font-bold text-lg mb-4">Parte de Servicio – ITT 1878</h2>
 
 <form id="form">
 
-<!-- 1. OPERARIO -->
+<!-- PAGE 1 -->
 <div class="page active">
-  <input name="operario" placeholder="Operario *" class="input">
-  <input name="vehiculo" placeholder="Vehículo" class="input mt-2">
-  <input name="ot" placeholder="Nº OT *" class="input mt-2">
-  <input type="date" name="fecha" class="input mt-2">
+  <input name="operario" placeholder="Operario *" class="input mb-2">
+  <input name="vehiculo" placeholder="Vehículo" class="input mb-2">
+  <input name="ot" placeholder="Nº OT *" class="input mb-2">
+  <input type="date" name="fecha" class="input">
 </div>
 
-<!-- 2. CLIENTE -->
+<!-- PAGE 2 -->
 <div class="page">
-  <input name="cliente" placeholder="Cliente *" class="input">
-  <input name="direccion" placeholder="Dirección" class="input mt-2">
-  <input name="telefono" placeholder="Teléfono" class="input mt-2">
-  <input name="email_cliente" placeholder="Email cliente" class="input mt-2">
+  <input name="cliente" placeholder="Cliente *" class="input mb-2">
+  <input name="telefono" placeholder="Teléfono" class="input mb-2">
+  <input name="email" placeholder="Email" class="input">
 </div>
 
-<!-- 3. MAQUINA -->
+<!-- PAGE 3 -->
 <div class="page">
-  <input name="marca" placeholder="Marca" class="input">
-  <input name="modelo" placeholder="Modelo" class="input mt-2">
-  <input name="serie" placeholder="Nº Serie" class="input mt-2">
-  <input name="horas_maquina" placeholder="Horas máquina" class="input mt-2">
+  <input name="marca" placeholder="Marca máquina *" class="input mb-2">
+  <input name="modelo" placeholder="Modelo *" class="input mb-2">
+  <input name="serie" placeholder="Nº Serie *" class="input">
 </div>
 
-<!-- 4. PROBLEMA -->
+<!-- PAGE 4 -->
 <div class="page">
-  <textarea name="problema" placeholder="Descripción del problema" class="input h-32"></textarea>
+  <textarea name="problema" placeholder="Descripción del problema *" class="input h-32"></textarea>
 </div>
 
-<!-- 5. MANO DE OBRA -->
+<!-- PAGE 5 -->
 <div class="page">
-  <input name="h_salida" placeholder="Hora salida" class="input">
-  <input name="h_llegada" placeholder="Hora llegada" class="input mt-2">
-  <input name="inicio" placeholder="Inicio trabajos" class="input mt-2">
-  <input name="fin" placeholder="Fin trabajos" class="input mt-2">
-  <input name="horas" placeholder="Horas mano de obra" class="input mt-2">
-  <input name="km" placeholder="Kilómetros realizados" class="input mt-2">
+  <input name="h_salida" placeholder="Hora salida" class="input mb-2">
+  <input name="h_llegada" placeholder="Hora llegada" class="input mb-2">
+  <input name="horas" placeholder="Horas mano de obra *" class="input mb-2">
+  <input name="km" placeholder="Kilómetros realizados" class="input">
 </div>
 
-<!-- 6. TRABAJOS -->
+<!-- PAGE 6 -->
 <div class="page">
-  <textarea name="trabajos" placeholder="Trabajos efectuados" class="input h-28"></textarea>
-  <textarea name="materiales" placeholder="Materiales utilizados" class="input h-24 mt-2"></textarea>
-  <textarea name="observaciones" placeholder="Observaciones" class="input h-24 mt-2"></textarea>
+  <textarea name="trabajos" placeholder="Trabajos realizados" class="input h-24 mb-2"></textarea>
+  <textarea name="materiales" placeholder="Materiales utilizados" class="input h-24 mb-2"></textarea>
+  <textarea name="observaciones" placeholder="Observaciones" class="input h-24"></textarea>
 </div>
 
-<!-- 7. FIRMAS -->
+<!-- PAGE 7 -->
 <div class="page">
-  <p class="font-semibold mb-1">Firma operario</p>
+  <p class="font-semibold mb-2">Firma del operario</p>
   <canvas id="firma" class="border w-full h-32 mb-4"></canvas>
 
-  <button type="button" onclick="finalizar()" class="w-full bg-black text-white py-2 rounded">
-    Generar PDF y Enviar Parte
+  <button type="button" onclick="finalizar()"
+    class="w-full bg-black text-white py-3 rounded">
+    Generar PDF y Enviar
   </button>
 </div>
 
+<!-- NAV -->
 <div class="flex justify-between mt-4">
-  <button type="button" onclick="prev()" class="px-4 py-2 bg-gray-200 rounded">Atrás</button>
-  <button type="button" onclick="next()" class="px-4 py-2 bg-black text-white rounded">Siguiente</button>
+  <button type="button" onclick="prev()" class="px-4 py-2 bg-gray-200 rounded">
+    Atrás
+  </button>
+  <button type="button" onclick="next()" class="px-4 py-2 bg-black text-white rounded">
+    Siguiente
+  </button>
 </div>
 
 </form>
@@ -111,54 +111,71 @@ body{
 <script>
 emailjs.init("YUPi8RN6-nphAC3p-");
 
-const pages=document.querySelectorAll('.page');
-let i=0;
-function show(){pages.forEach(p=>p.classList.remove('active'));pages[i].classList.add('active')}
-function next(){if(i<pages.length-1){i++;show()}}
-function prev(){if(i>0){i--;show()}}
+const pages = document.querySelectorAll('.page');
+let current = 0;
 
-const canvas=document.getElementById('firma');
-const ctx=canvas.getContext('2d');
-let draw=false;
-canvas.onmousedown=()=>{draw=true;ctx.beginPath()}
-canvas.onmouseup=()=>draw=false;
-canvas.onmousemove=e=>{if(draw){ctx.lineTo(e.offsetX,e.offsetY);ctx.stroke()}}
+function showPage(){
+  pages.forEach(p => p.classList.remove('active'));
+  pages[current].classList.add('active');
+}
 
+function next(){
+  if(current < pages.length-1){
+    current++;
+    showPage();
+  }
+}
+
+function prev(){
+  if(current > 0){
+    current--;
+    showPage();
+  }
+}
+
+showPage();
+
+// FIRMA
+const canvas = document.getElementById('firma');
+const ctx = canvas.getContext('2d');
+let drawing=false;
+
+canvas.onmousedown=()=>{drawing=true;ctx.beginPath()};
+canvas.onmouseup=()=>drawing=false;
+canvas.onmousemove=e=>{
+  if(!drawing) return;
+  ctx.lineTo(e.offsetX,e.offsetY);
+  ctx.stroke();
+};
+
+// PDF + EMAIL
 function finalizar(){
-  const {jsPDF}=window.jspdf;
-  const pdf=new jsPDF();
+  const {jsPDF} = window.jspdf;
+  const pdf = new jsPDF();
 
-  pdf.addImage("assets/logos/logo-itt-1878.png","PNG",70,5,60,20);
-  pdf.setFontSize(12);
-  pdf.text("PARTE DE SERVICIO – ITT 1878",105,30,{align:"center"});
+  pdf.text("PARTE DE SERVICIO – ITT 1878", 10, 10);
 
-  let y=40;
-  const f=new FormData(document.getElementById("form"));
-  const row=(l,v)=>{pdf.text(`${l}: ${v||"-"}`,10,y);y+=7};
+  let y=20;
+  const data = new FormData(document.getElementById("form"));
+  data.forEach((v,k)=>{
+    pdf.text(`${k.toUpperCase()}: ${v}`,10,y);
+    y+=7;
+  });
 
-  [
-    ["Operario",f.get("operario")],
-    ["Vehículo",f.get("vehiculo")],
-    ["OT",f.get("ot")],
-    ["Fecha",f.get("fecha")],
-    ["Cliente",f.get("cliente")],
-    ["Marca",f.get("marca")],
-    ["Modelo",f.get("modelo")],
-    ["Horas MO",f.get("horas")],
-    ["KM",f.get("km")]
-  ].forEach(r=>row(r[0],r[1]));
+  pdf.addImage(canvas.toDataURL(),"PNG",10,y,60,30);
 
-  pdf.text("Trabajos:",10,y+=5);
-  pdf.text(f.get("trabajos")||"-",10,y+=6,{maxWidth:190});
-
-  pdf.addImage(canvas.toDataURL(),"PNG",10,240,60,30);
-
-  const base64=pdf.output("datauristring").split(",")[1];
+  const pdfBase64 = pdf.output("datauristring").split(",")[1];
 
   emailjs.send("service_k44yx7g","template_6i0hl7v",{
-    to_email:"kevin.gancino@cm93.com",
-    pdf_base64:base64,
-    ot:f.get("ot")
+    operario:data.get("operario"),
+    cliente:data.get("cliente"),
+    ot:data.get("ot"),
+    vehiculo:data.get("vehiculo"),
+    fecha:data.get("fecha"),
+    horas:data.get("horas"),
+    km:data.get("km"),
+    descripcion:data.get("trabajos"),
+    pdf_base64:pdfBase64
   });
 
   pdf.save("parte-servicio.pdf");
