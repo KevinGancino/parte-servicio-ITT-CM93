@@ -10,23 +10,23 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
-body{
-  background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat;
+body {
+  background: url('assets/bg/workshop.jpg') center / cover fixed no-repeat;
 }
-.page{display:none}
-.page.active{display:block}
-.input{
-  width:100%;
-  border:1px solid #ccc;
-  padding:10px;
-  border-radius:8px;
+.page { display: none; }
+.page.active { display: block; }
+.input {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
 }
 </style>
 </head>
 
 <body class="min-h-screen flex justify-center items-center">
 
-<div class="bg-white/95 w-full max-w-xl p-6 rounded-xl shadow-xl">
+<div class="bg-white/95 w-full max-w-2xl p-6 rounded-xl shadow-xl">
 
 <!-- LOGOS -->
 <div class="text-center mb-4">
@@ -38,71 +38,83 @@ body{
   </div>
 </div>
 
-<h2 class="text-center font-bold text-lg mb-4">Parte de Servicio – ITT 1878</h2>
+<h2 class="text-center font-bold text-lg mb-4">
+  Parte de Servicio – ITT 1878
+</h2>
 
 <form id="form">
 
-<!-- PAGE 1 -->
+<!-- PÁGINA 1 -->
 <div class="page active">
-  <input name="operario" placeholder="Operario *" class="input mb-2">
-  <input name="vehiculo" placeholder="Vehículo" class="input mb-2">
-  <input name="ot" placeholder="Nº OT *" class="input mb-2">
-  <input type="date" name="fecha" class="input">
+  <input name="operario" placeholder="Operario *" class="input">
+  <input name="ot" placeholder="Nº OT *" class="input mt-2">
+  <input type="date" name="fecha" class="input mt-2">
+  <input name="vehiculo" placeholder="Vehículo" class="input mt-2">
 </div>
 
-<!-- PAGE 2 -->
+<!-- PÁGINA 2 -->
 <div class="page">
-  <input name="cliente" placeholder="Cliente *" class="input mb-2">
-  <input name="telefono" placeholder="Teléfono" class="input mb-2">
-  <input name="email" placeholder="Email" class="input">
+  <input name="cliente" placeholder="Cliente *" class="input">
+  <input name="direccion" placeholder="Dirección" class="input mt-2">
+  <input name="telefono" placeholder="Teléfono" class="input mt-2">
+  <input name="email" placeholder="Email" class="input mt-2">
 </div>
 
-<!-- PAGE 3 -->
+<!-- PÁGINA 3 -->
 <div class="page">
-  <input name="marca" placeholder="Marca máquina *" class="input mb-2">
-  <input name="modelo" placeholder="Modelo *" class="input mb-2">
-  <input name="serie" placeholder="Nº Serie *" class="input">
+  <input name="marca" placeholder="Marca *" class="input">
+  <input name="modelo" placeholder="Modelo *" class="input mt-2">
+  <input name="serie" placeholder="Nº Serie *" class="input mt-2">
+  <input name="horas_maquina" placeholder="Horas máquina" class="input mt-2">
 </div>
 
-<!-- PAGE 4 -->
+<!-- PÁGINA 4 -->
 <div class="page">
-  <textarea name="problema" placeholder="Descripción del problema *" class="input h-32"></textarea>
+  <textarea name="aviso" placeholder="Motivo del aviso" class="input h-24"></textarea>
+  <textarea name="problema" placeholder="Descripción del problema" class="input h-32 mt-2"></textarea>
 </div>
 
-<!-- PAGE 5 -->
+<!-- PÁGINA 5 -->
 <div class="page">
-  <input name="h_salida" placeholder="Hora salida" class="input mb-2">
-  <input name="h_llegada" placeholder="Hora llegada" class="input mb-2">
-  <input name="horas" placeholder="Horas mano de obra *" class="input mb-2">
-  <input name="km" placeholder="Kilómetros realizados" class="input">
+  <select name="hora_salida" class="input">
+    <option value="">Hora salida *</option>
+    ${[...Array(15)].map((_,i)=>`<option>${String(i+6).padStart(2,'0')}:00</option>`).join('')}
+  </select>
+
+  <select name="hora_llegada" class="input mt-2">
+    <option value="">Hora llegada *</option>
+    ${[...Array(15)].map((_,i)=>`<option>${String(i+6).padStart(2,'0')}:00</option>`).join('')}
+  </select>
+
+  <input name="horas_trabajo" placeholder="Horas trabajo *" class="input mt-2">
+  <input name="km" placeholder="Kilómetros realizados *" class="input mt-2">
 </div>
 
-<!-- PAGE 6 -->
+<!-- PÁGINA 6 -->
 <div class="page">
-  <textarea name="trabajos" placeholder="Trabajos realizados" class="input h-24 mb-2"></textarea>
-  <textarea name="materiales" placeholder="Materiales utilizados" class="input h-24 mb-2"></textarea>
-  <textarea name="observaciones" placeholder="Observaciones" class="input h-24"></textarea>
+  <textarea name="trabajos" placeholder="Trabajos realizados" class="input h-24"></textarea>
+  <textarea name="materiales" placeholder="Materiales utilizados" class="input h-24 mt-2"></textarea>
+  <textarea name="observaciones" placeholder="Observaciones" class="input h-24 mt-2"></textarea>
 </div>
 
-<!-- PAGE 7 -->
+<!-- PÁGINA 7 -->
 <div class="page">
-  <p class="font-semibold mb-2">Firma del operario</p>
-  <canvas id="firma" class="border w-full h-32 mb-4"></canvas>
+  <p class="font-semibold mb-1">Firma operario</p>
+  <canvas id="firma_operario" class="border w-full h-32 mb-4"></canvas>
 
-  <button type="button" onclick="finalizar()"
-    class="w-full bg-black text-white py-3 rounded">
+  <p class="font-semibold mb-1">Firma cliente</p>
+  <canvas id="firma_cliente" class="border w-full h-32"></canvas>
+
+  <button type="button"
+    onclick="finalizar()"
+    class="w-full mt-4 bg-black text-white py-2 rounded">
     Generar PDF y Enviar
   </button>
 </div>
 
-<!-- NAV -->
 <div class="flex justify-between mt-4">
-  <button type="button" onclick="prev()" class="px-4 py-2 bg-gray-200 rounded">
-    Atrás
-  </button>
-  <button type="button" onclick="next()" class="px-4 py-2 bg-black text-white rounded">
-    Siguiente
-  </button>
+  <button type="button" onclick="prev()" class="px-4 py-2 bg-gray-200 rounded">Atrás</button>
+  <button type="button" onclick="next()" class="px-4 py-2 bg-black text-white rounded">Siguiente</button>
 </div>
 
 </form>
@@ -112,74 +124,73 @@ body{
 emailjs.init("YUPi8RN6-nphAC3p-");
 
 const pages = document.querySelectorAll('.page');
-let current = 0;
-
-function showPage(){
-  pages.forEach(p => p.classList.remove('active'));
-  pages[current].classList.add('active');
-}
-
-function next(){
-  if(current < pages.length-1){
-    current++;
-    showPage();
-  }
-}
-
-function prev(){
-  if(current > 0){
-    current--;
-    showPage();
-  }
-}
-
-showPage();
+let i = 0;
+function show(){ pages.forEach(p=>p.classList.remove('active')); pages[i].classList.add('active'); }
+function next(){ if(i<pages.length-1){ i++; show(); } }
+function prev(){ if(i>0){ i--; show(); } }
 
 // FIRMA
-const canvas = document.getElementById('firma');
-const ctx = canvas.getContext('2d');
-let drawing=false;
+function initCanvas(id){
+  const c=document.getElementById(id),ctx=c.getContext("2d");
+  let d=false;
+  c.onmousedown=()=>d=true;
+  c.onmouseup=()=>d=false;
+  c.onmousemove=e=>{ if(d){ ctx.lineTo(e.offsetX,e.offsetY); ctx.stroke(); } }
+}
+initCanvas("firma_operario");
+initCanvas("firma_cliente");
 
-canvas.onmousedown=()=>{drawing=true;ctx.beginPath()};
-canvas.onmouseup=()=>drawing=false;
-canvas.onmousemove=e=>{
-  if(!drawing) return;
-  ctx.lineTo(e.offsetX,e.offsetY);
-  ctx.stroke();
-};
-
-// PDF + EMAIL
+// FINALIZAR + PDF + EMAIL
 function finalizar(){
-  const {jsPDF} = window.jspdf;
+  const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
+  const data = Object.fromEntries(new FormData(form).entries());
+  let y = 10;
 
-  pdf.text("PARTE DE SERVICIO – ITT 1878", 10, 10);
+  pdf.addImage("assets/logos/logo-itt-1878.png","PNG",80,y,50,18);
+  y+=25;
+  pdf.setFontSize(14);
+  pdf.text("PARTE DE SERVICIO – ITT 1878",105,y,{align:"center"});
+  y+=10;
+  pdf.setFontSize(10);
 
-  let y=20;
-  const data = new FormData(document.getElementById("form"));
-  data.forEach((v,k)=>{
-    pdf.text(`${k.toUpperCase()}: ${v}`,10,y);
-    y+=7;
-  });
+  const section=t=>{ pdf.setFillColor(230); pdf.rect(10,y,190,8,"F"); pdf.text(t,12,y+5); y+=12; };
+  const field=(l,v,x)=>{ pdf.text(l,x,y); pdf.rect(x,y+2,90,8); pdf.text(v||"",x+2,y+8); };
 
-  pdf.addImage(canvas.toDataURL(),"PNG",10,y,60,30);
+  section("DATOS GENERALES");
+  field("Operario",data.operario,10); field("OT",data.ot,110); y+=14;
+  field("Fecha",data.fecha,10); field("Vehículo",data.vehiculo,110); y+=18;
 
-  const pdfBase64 = pdf.output("datauristring").split(",")[1];
+  section("CLIENTE");
+  field("Cliente",data.cliente,10); field("Dirección",data.direccion,110); y+=14;
+  field("Teléfono",data.telefono,10); field("Email",data.email,110); y+=18;
 
-  emailjs.send("service_k44yx7g","template_6i0hl7v",{
-    operario:data.get("operario"),
-    cliente:data.get("cliente"),
-    ot:data.get("ot"),
-    vehiculo:data.get("vehiculo"),
-    fecha:data.get("fecha"),
-    horas:data.get("horas"),
-    km:data.get("km"),
-    descripcion:data.get("trabajos"),
-    pdf_base64:pdfBase64
-  });
+  section("MÁQUINA");
+  field("Marca",data.marca,10); field("Modelo",data.modelo,110); y+=14;
+  field("Serie",data.serie,10); field("Horas",data.horas_maquina,110); y+=18;
 
+  section("AVISO / PROBLEMA");
+  pdf.rect(10,y,190,20); pdf.text(data.aviso||"",12,y+6); y+=24;
+  pdf.rect(10,y,190,30); pdf.text(data.problema||"",12,y+6); y+=36;
+
+  section("MANO DE OBRA");
+  field("Salida",data.hora_salida,10); field("Llegada",data.hora_llegada,110); y+=14;
+  field("Horas",data.horas_trabajo,10); field("Km",data.km,110); y+=20;
+
+  section("TRABAJOS");
+  pdf.rect(10,y,190,20); pdf.text(data.trabajos||"",12,y+6); y+=24;
+  pdf.rect(10,y,190,20); pdf.text(data.materiales||"",12,y+6); y+=24;
+  pdf.rect(10,y,190,20); pdf.text(data.observaciones||"",12,y+6); y+=28;
+
+  section("FIRMAS");
+  pdf.text("Operario",10,y); pdf.text("Cliente",110,y); y+=4;
+  pdf.addImage(firma_operario.toDataURL(),"PNG",10,y,80,30);
+  pdf.addImage(firma_cliente.toDataURL(),"PNG",110,y,80,30);
+
+  const blob = pdf.output("blob");
+  emailjs.send("service_k44yx7g","template_6i0hl7v",{},{attachments:[{name:"parte-servicio.pdf",blob}]});
   pdf.save("parte-servicio.pdf");
-  alert("Parte enviado correctamente");
+  alert("Parte generado y enviado correctamente");
 }
 </script>
 
