@@ -15,7 +15,7 @@ body{
 }
 .page{display:none}
 .page.active{display:block}
-label{font-weight:600;font-size:0.9rem}
+label{font-weight:600;font-size:.9rem}
 .input{
   width:100%;
   border:1px solid #ccc;
@@ -31,11 +31,11 @@ label{font-weight:600;font-size:0.9rem}
 
 <!-- LOGOS -->
 <div class="text-center mb-4">
-  <img src="assets/logos/logo-itt-1878.png" class="h-14 mx-auto mb-2">
+  <img id="logo1878" src="assets/logos/logo-itt-1878.png" class="h-14 mx-auto mb-2">
   <div class="flex justify-center gap-4">
-    <img src="assets/logos/logo-itt-cm93.png" class="h-8">
-    <img src="assets/logos/logo-case.jfif" class="h-8">
-    <img src="assets/logos/logo-manitou.png" class="h-8">
+    <img id="logoCM93" src="assets/logos/logo-itt-cm93.png" class="h-8">
+    <img id="logoCASE" src="assets/logos/logo-case.jfif" class="h-8">
+    <img id="logoMANITOU" src="assets/logos/logo-manitou.png" class="h-8">
   </div>
 </div>
 
@@ -100,16 +100,10 @@ label{font-weight:600;font-size:0.9rem}
 <!-- PÁGINA 5 -->
 <div class="page">
   <label>Hora salida *</label>
-  <select name="hora_salida" class="input">
-    <option value="">Seleccionar</option>
-    ${Array.from({length:15},(_,i)=>`<option>${String(i+6).padStart(2,'0')}:00</option>`).join('')}
-  </select>
+  <select id="horaSalida" name="hora_salida" class="input"></select>
 
   <label class="mt-2 block">Hora llegada *</label>
-  <select name="hora_llegada" class="input">
-    <option value="">Seleccionar</option>
-    ${Array.from({length:15},(_,i)=>`<option>${String(i+6).padStart(2,'0')}:00</option>`).join('')}
-  </select>
+  <select id="horaLlegada" name="hora_llegada" class="input"></select>
 
   <label class="mt-2 block">Horas de trabajo *</label>
   <input name="horas_trabajo" class="input">
@@ -154,39 +148,49 @@ label{font-weight:600;font-size:0.9rem}
 <script>
 emailjs.init("YUPi8RN6-nphAC3p-");
 
+/* PÁGINAS */
 const pages=document.querySelectorAll('.page');
 let i=0;
 function show(){pages.forEach(p=>p.classList.remove('active'));pages[i].classList.add('active')}
 function next(){if(i<pages.length-1){i++;show()}}
 function prev(){if(i>0){i--;show()}}
 
+/* HORAS 06:00 → 20:00 */
+function cargarHoras(){
+  const s=document.getElementById("horaSalida");
+  const l=document.getElementById("horaLlegada");
+  for(let h=6;h<=20;h++){
+    const t=String(h).padStart(2,"0")+":00";
+    s.add(new Option(t,t));
+    l.add(new Option(t,t));
+  }
+}
+cargarHoras();
+
+/* FIRMAS */
 function setupCanvas(id){
   const c=document.getElementById(id);
-  const ctx=c.getContext('2d');
+  const ctx=c.getContext("2d");
   let d=false;
   c.onmousedown=()=>{d=true;ctx.beginPath()}
   c.onmouseup=()=>d=false
   c.onmousemove=e=>{if(d){ctx.lineTo(e.offsetX,e.offsetY);ctx.stroke()}}
   return c;
 }
-
 const firmaOp=setupCanvas("firmaOperario");
 const firmaCl=setupCanvas("firmaCliente");
 
+/* PDF */
 function finalizar(){
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF();
 
-  pdf.addImage("assets/logos/logo-itt-1878.png","PNG",70,5,60,20);
-  pdf.addImage("assets/logos/logo-itt-cm93.png","PNG",20,30,30,12);
-  pdf.addImage("assets/logos/logo-case.jfif","JPEG",70,30,30,12);
-  pdf.addImage("assets/logos/logo-manitou.png","PNG",120,30,30,12);
+  pdf.text("PARTE DE SERVICIO – ITT 1878",60,15);
 
-  pdf.text("PARTE DE SERVICIO – ITT 1878",40,50);
-
-  let y=60;
-  new FormData(form).forEach((v,k)=>{
-    pdf.text(`${k.toUpperCase()}: ${v}`,10,y);
+  let y=25;
+  const f=new FormData(form);
+  f.forEach((v,k)=>{
+    pdf.text(`${k.replace('_',' ').toUpperCase()}: ${v}`,10,y);
     y+=7;
   });
 
@@ -196,15 +200,8 @@ function finalizar(){
   pdf.text("Firma cliente:",110,y+5);
   pdf.addImage(firmaCl.toDataURL(),"PNG",110,y+10,60,25);
 
-  const blob=pdf.output("blob");
-
-  emailjs.send("service_k44yx7g","template_6i0hl7v",{
-    to_email:"kevin.gancino@cm93.com",
-    message:"Parte de servicio adjunto"
-  },{attachments:[{name:"parte-servicio.pdf",blob}]});
-
   pdf.save("parte-servicio.pdf");
-  alert("Parte generado y enviado correctamente");
+  alert("PDF generado correctamente");
 }
 </script>
 
