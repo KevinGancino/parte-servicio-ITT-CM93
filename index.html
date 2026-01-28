@@ -10,23 +10,25 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
-body{background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat}
+body{
+  background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat;
+}
 .page{display:none}
 .page.active{display:block}
 canvas{touch-action:none}
 </style>
 </head>
 
-<body class="min-h-screen flex justify-center items-center">
+<body class="min-h-screen flex justify-center items-center p-4">
 
-<div class="bg-white/95 w-full max-w-2xl p-6 rounded-xl shadow-xl">
+<div class="bg-white/95 w-full max-w-xl p-6 rounded-xl shadow-xl">
 
 <!-- LOGOS -->
 <div class="text-center mb-4">
   <img src="assets/logos/logo-itt-1878.png" class="h-14 mx-auto mb-2">
   <div class="flex justify-center gap-4">
     <img src="assets/logos/logo-itt-cm93.png" class="h-8">
-    <img src="assets/logos/logo-case.jfif" class="h-8">
+    <img src="assets/logos/logo-case.png?v=2" class="h-8">
     <img src="assets/logos/logo-manitou.png" class="h-8">
   </div>
 </div>
@@ -35,96 +37,96 @@ canvas{touch-action:none}
 
 <form id="form">
 
-<!-- PÁGINA 1 -->
+<!-- PAGE 1 -->
 <div class="page active">
-  <label>Operario *</label>
+  <label class="font-semibold">Operario *</label>
   <input name="operario" class="input">
 
-  <label class="mt-2">Vehículo</label>
+  <label class="font-semibold mt-2 block">Vehículo</label>
   <input name="vehiculo" class="input">
 
-  <label class="mt-2">Nº OT *</label>
+  <label class="font-semibold mt-2 block">Nº OT *</label>
   <input name="ot" class="input">
 
-  <label class="mt-2">Fecha *</label>
+  <label class="font-semibold mt-2 block">Fecha *</label>
   <input type="date" name="fecha" class="input">
 </div>
 
-<!-- PÁGINA 2 -->
+<!-- PAGE 2 -->
 <div class="page">
-  <label>Cliente *</label>
+  <label class="font-semibold">Cliente *</label>
   <input name="cliente" class="input">
 
-  <label class="mt-2">Dirección</label>
+  <label class="font-semibold mt-2 block">Dirección</label>
   <input name="direccion" class="input">
 
-  <label class="mt-2">Teléfono</label>
+  <label class="font-semibold mt-2 block">Teléfono</label>
   <input name="telefono" class="input">
 
-  <label class="mt-2">Email</label>
+  <label class="font-semibold mt-2 block">Email</label>
   <input name="email" class="input">
 </div>
 
-<!-- PÁGINA 3 -->
+<!-- PAGE 3 -->
 <div class="page">
-  <label>Marca *</label>
+  <label class="font-semibold">Marca *</label>
   <input name="marca" class="input">
 
-  <label class="mt-2">Modelo *</label>
+  <label class="font-semibold mt-2 block">Modelo *</label>
   <input name="modelo" class="input">
 
-  <label class="mt-2">Nº Serie *</label>
+  <label class="font-semibold mt-2 block">Nº Serie *</label>
   <input name="serie" class="input">
 
-  <label class="mt-2">Horas máquina</label>
+  <label class="font-semibold mt-2 block">Horas máquina</label>
   <input name="horas_maquina" class="input">
 </div>
 
-<!-- PÁGINA 4 -->
+<!-- PAGE 4 -->
 <div class="page">
-  <label>Motivo del aviso</label>
+  <label class="font-semibold">Motivo del aviso</label>
   <textarea name="motivo" class="input h-24"></textarea>
 
-  <label class="mt-2">Descripción del problema</label>
+  <label class="font-semibold mt-2 block">Descripción del problema</label>
   <textarea name="problema" class="input h-24"></textarea>
 </div>
 
-<!-- PÁGINA 5 -->
+<!-- PAGE 5 -->
 <div class="page">
-  <label>Hora salida *</label>
-  <select name="hora_salida" id="horaSalida" class="input"></select>
+  <label class="font-semibold">Hora salida *</label>
+  <select name="hora_salida" class="input"></select>
 
-  <label class="mt-2">Hora llegada *</label>
-  <select name="hora_llegada" id="horaLlegada" class="input"></select>
+  <label class="font-semibold mt-2 block">Hora llegada *</label>
+  <select name="hora_llegada" class="input"></select>
 
-  <label class="mt-2">Horas trabajo *</label>
+  <label class="font-semibold mt-2 block">Horas trabajo *</label>
   <input name="horas_trabajo" class="input">
 
-  <label class="mt-2">Kilómetros *</label>
+  <label class="font-semibold mt-2 block">Kilómetros realizados *</label>
   <input name="km" class="input">
 </div>
 
-<!-- PÁGINA 6 -->
+<!-- PAGE 6 -->
 <div class="page">
-  <label>Trabajos realizados</label>
+  <label class="font-semibold">Trabajos realizados</label>
   <textarea name="trabajos" class="input h-24"></textarea>
 
-  <label class="mt-2">Materiales utilizados</label>
+  <label class="font-semibold mt-2 block">Materiales utilizados</label>
   <textarea name="materiales" class="input h-24"></textarea>
 
-  <label class="mt-2">Observaciones</label>
+  <label class="font-semibold mt-2 block">Observaciones</label>
   <textarea name="observaciones" class="input h-24"></textarea>
 </div>
 
-<!-- PÁGINA 7 -->
+<!-- PAGE 7 -->
 <div class="page">
-  <label>Firma operario</label>
-  <canvas id="firmaOperario" class="border w-full h-32"></canvas>
+  <p class="font-semibold mb-1">Firma operario</p>
+  <canvas id="firma_operario" class="border w-full h-32 mb-4"></canvas>
 
-  <label class="mt-2">Firma cliente</label>
-  <canvas id="firmaCliente" class="border w-full h-32"></canvas>
+  <p class="font-semibold mb-1">Firma cliente</p>
+  <canvas id="firma_cliente" class="border w-full h-32 mb-4"></canvas>
 
-  <button type="button" onclick="finalizar()" class="w-full bg-black text-white py-2 rounded mt-4">
+  <button type="button" onclick="finalizar()" class="w-full bg-black text-white py-3 rounded">
     Generar PDF y Enviar
   </button>
 </div>
@@ -146,55 +148,83 @@ function show(){pages.forEach(p=>p.classList.remove('active'));pages[i].classLis
 function next(){if(i<pages.length-1){i++;show()}}
 function prev(){if(i>0){i--;show()}}
 
-// HORAS 06:00–20:00 (ARREGLADO)
-function cargarHoras(){
+// Horarios cada 15 minutos
+function fillTimes(sel){
   for(let h=6;h<=20;h++){
-    const o=document.createElement("option");
-    o.value=o.textContent=`${String(h).padStart(2,'0')}:00`;
-    horaSalida.appendChild(o.cloneNode(true));
-    horaLlegada.appendChild(o);
+    for(let m=0;m<60;m+=15){
+      if(h===20 && m>0) continue;
+      sel.add(new Option(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`));
+    }
   }
 }
-cargarHoras();
+fillTimes(document.querySelector('[name=hora_salida]'));
+fillTimes(document.querySelector('[name=hora_llegada]'));
 
-// FIRMAS
+// Firmas
 function firma(canvas){
   const ctx=canvas.getContext("2d");
   let draw=false;
-  canvas.onmousedown=()=>draw=true;
-  canvas.onmouseup=()=>draw=false;
-  canvas.onmousemove=e=>{if(draw){ctx.lineTo(e.offsetX,e.offsetY);ctx.stroke()}};
+  const pos=e=>e.touches?e.touches[0]:e;
+  canvas.addEventListener("mousedown",()=>draw=true);
+  canvas.addEventListener("mouseup",()=>{draw=false;ctx.beginPath()});
+  canvas.addEventListener("mousemove",e=>{
+    if(!draw)return;
+    ctx.lineWidth=2;
+    ctx.lineTo(pos(e).offsetX,pos(e).offsetY);
+    ctx.stroke();
+  });
+  canvas.addEventListener("touchstart",()=>draw=true);
+  canvas.addEventListener("touchend",()=>{draw=false;ctx.beginPath()});
+  canvas.addEventListener("touchmove",e=>{
+    e.preventDefault();
+    if(!draw)return;
+    const r=canvas.getBoundingClientRect();
+    ctx.lineTo(pos(e).clientX-r.left,pos(e).clientY-r.top);
+    ctx.stroke();
+  });
 }
-firma(firmaOperario);
-firma(firmaCliente);
+firma(document.getElementById("firma_operario"));
+firma(document.getElementById("firma_cliente"));
 
-// FINALIZAR
-function finalizar(){
+// PDF + Email
+async function loadImage(src){
+  return new Promise(r=>{
+    const i=new Image();i.crossOrigin="anonymous";
+    i.onload=()=>{const c=document.createElement("canvas");c.width=i.width;c.height=i.height;c.getContext("2d").drawImage(i,0,0);r(c.toDataURL())};
+    i.src=src;
+  });
+}
+
+async function finalizar(){
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF();
 
-  pdf.addImage("assets/logos/logo-itt-1878.png","PNG",75,5,60,20);
-  pdf.text("PARTE DE SERVICIO – ITT 1878",60,30);
+  const logoITT=await loadImage("assets/logos/logo-itt-1878.png");
+  const logoCASE=await loadImage("assets/logos/logo-case.png?v=2");
+  const logoMAN=await loadImage("assets/logos/logo-manitou.png");
+
+  pdf.addImage(logoITT,"PNG",10,5,40,15);
+  pdf.addImage(logoCASE,"PNG",60,5,40,15);
+  pdf.addImage(logoMAN,"PNG",110,5,40,15);
+
+  pdf.setFontSize(14);
+  pdf.text("PARTE DE SERVICIO – ITT 1878",10,30);
 
   let y=40;
-  const data=new FormData(form);
-  data.forEach((v,k)=>{
-    pdf.text(`${k}: ${v}`,10,y);
-    y+=7;
-  });
+  new FormData(form).forEach((v,k)=>{pdf.setFontSize(10);pdf.text(`${k}: ${v}`,10,y);y+=6});
 
-  pdf.addImage(firmaOperario.toDataURL(),"PNG",10,y,80,30);
-  pdf.addImage(firmaCliente.toDataURL(),"PNG",110,y,80,30);
+  pdf.text("Firma operario:",10,y+5);
+  pdf.addImage(firma_operario.toDataURL(),"PNG",10,y+10,60,25);
 
-  const base64=pdf.output("datauristring").split(",")[1];
+  pdf.text("Firma cliente:",80,y+5);
+  pdf.addImage(firma_cliente.toDataURL(),"PNG",80,y+10,60,25);
 
-  emailjs.send("service_k44yx7g","template_6i0hl7v",{
-    to_email:"kevin.gancino@cm93.com",
-    pdf_base64:base64
-  });
+  const blob=pdf.output("blob");
+
+  emailjs.send("service_k44yx7g","template_6i0hl7v",{to_email:"kevin.gancino@cm93.com"},{attachments:[{name:"parte-servicio.pdf",blob}]});
 
   pdf.save("parte-servicio.pdf");
-  alert("PDF generado y enviado correctamente");
+  alert("Parte generado y enviado correctamente");
 }
 </script>
 
@@ -205,7 +235,6 @@ function finalizar(){
   padding:8px;
   border-radius:6px;
 }
-label{font-weight:600;margin-top:6px;display:block}
 </style>
 
 </body>
