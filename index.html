@@ -10,32 +10,24 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
-body{
-  background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat;
-}
+body{background:url('assets/bg/workshop.jpg') center/cover fixed no-repeat}
 .page{display:none}
 .page.active{display:block}
-label{font-weight:600;font-size:.9rem}
-.input{
-  width:100%;
-  border:1px solid #ccc;
-  padding:8px;
-  border-radius:6px;
-}
+canvas{touch-action:none}
 </style>
 </head>
 
 <body class="min-h-screen flex justify-center items-center">
 
-<div class="bg-white/95 w-full max-w-xl p-6 rounded-xl shadow-xl">
+<div class="bg-white/95 w-full max-w-2xl p-6 rounded-xl shadow-xl">
 
 <!-- LOGOS -->
 <div class="text-center mb-4">
-  <img id="logo1878" src="assets/logos/logo-itt-1878.png" class="h-14 mx-auto mb-2">
+  <img src="assets/logos/logo-itt-1878.png" class="h-14 mx-auto mb-2">
   <div class="flex justify-center gap-4">
-    <img id="logoCM93" src="assets/logos/logo-itt-cm93.png" class="h-8">
-    <img id="logoCASE" src="assets/logos/logo-case.jfif" class="h-8">
-    <img id="logoMANITOU" src="assets/logos/logo-manitou.png" class="h-8">
+    <img src="assets/logos/logo-itt-cm93.png" class="h-8">
+    <img src="assets/logos/logo-case.jfif" class="h-8">
+    <img src="assets/logos/logo-manitou.png" class="h-8">
   </div>
 </div>
 
@@ -48,13 +40,13 @@ label{font-weight:600;font-size:.9rem}
   <label>Operario *</label>
   <input name="operario" class="input">
 
-  <label class="mt-2 block">Vehículo</label>
+  <label class="mt-2">Vehículo</label>
   <input name="vehiculo" class="input">
 
-  <label class="mt-2 block">Nº OT *</label>
+  <label class="mt-2">Nº OT *</label>
   <input name="ot" class="input">
 
-  <label class="mt-2 block">Fecha *</label>
+  <label class="mt-2">Fecha *</label>
   <input type="date" name="fecha" class="input">
 </div>
 
@@ -63,14 +55,14 @@ label{font-weight:600;font-size:.9rem}
   <label>Cliente *</label>
   <input name="cliente" class="input">
 
-  <label class="mt-2 block">Dirección</label>
+  <label class="mt-2">Dirección</label>
   <input name="direccion" class="input">
 
-  <label class="mt-2 block">Teléfono</label>
+  <label class="mt-2">Teléfono</label>
   <input name="telefono" class="input">
 
-  <label class="mt-2 block">Email</label>
-  <input type="email" name="email" class="input">
+  <label class="mt-2">Email</label>
+  <input name="email" class="input">
 </div>
 
 <!-- PÁGINA 3 -->
@@ -78,37 +70,37 @@ label{font-weight:600;font-size:.9rem}
   <label>Marca *</label>
   <input name="marca" class="input">
 
-  <label class="mt-2 block">Modelo *</label>
+  <label class="mt-2">Modelo *</label>
   <input name="modelo" class="input">
 
-  <label class="mt-2 block">Nº Serie *</label>
+  <label class="mt-2">Nº Serie *</label>
   <input name="serie" class="input">
 
-  <label class="mt-2 block">Horas máquina</label>
+  <label class="mt-2">Horas máquina</label>
   <input name="horas_maquina" class="input">
 </div>
 
 <!-- PÁGINA 4 -->
 <div class="page">
   <label>Motivo del aviso</label>
-  <input name="motivo" class="input">
+  <textarea name="motivo" class="input h-24"></textarea>
 
-  <label class="mt-2 block">Descripción del problema</label>
-  <textarea name="problema" class="input h-28"></textarea>
+  <label class="mt-2">Descripción del problema</label>
+  <textarea name="problema" class="input h-24"></textarea>
 </div>
 
 <!-- PÁGINA 5 -->
 <div class="page">
   <label>Hora salida *</label>
-  <select id="horaSalida" name="hora_salida" class="input"></select>
+  <select name="hora_salida" id="horaSalida" class="input"></select>
 
-  <label class="mt-2 block">Hora llegada *</label>
-  <select id="horaLlegada" name="hora_llegada" class="input"></select>
+  <label class="mt-2">Hora llegada *</label>
+  <select name="hora_llegada" id="horaLlegada" class="input"></select>
 
-  <label class="mt-2 block">Horas de trabajo *</label>
+  <label class="mt-2">Horas trabajo *</label>
   <input name="horas_trabajo" class="input">
 
-  <label class="mt-2 block">Kilómetros realizados *</label>
+  <label class="mt-2">Kilómetros *</label>
   <input name="km" class="input">
 </div>
 
@@ -117,20 +109,20 @@ label{font-weight:600;font-size:.9rem}
   <label>Trabajos realizados</label>
   <textarea name="trabajos" class="input h-24"></textarea>
 
-  <label class="mt-2 block">Materiales utilizados</label>
+  <label class="mt-2">Materiales utilizados</label>
   <textarea name="materiales" class="input h-24"></textarea>
 
-  <label class="mt-2 block">Observaciones</label>
+  <label class="mt-2">Observaciones</label>
   <textarea name="observaciones" class="input h-24"></textarea>
 </div>
 
 <!-- PÁGINA 7 -->
 <div class="page">
   <label>Firma operario</label>
-  <canvas id="firmaOperario" class="border w-full h-28 mb-4"></canvas>
+  <canvas id="firmaOperario" class="border w-full h-32"></canvas>
 
-  <label>Firma cliente</label>
-  <canvas id="firmaCliente" class="border w-full h-28"></canvas>
+  <label class="mt-2">Firma cliente</label>
+  <canvas id="firmaCliente" class="border w-full h-32"></canvas>
 
   <button type="button" onclick="finalizar()" class="w-full bg-black text-white py-2 rounded mt-4">
     Generar PDF y Enviar
@@ -148,62 +140,73 @@ label{font-weight:600;font-size:.9rem}
 <script>
 emailjs.init("YUPi8RN6-nphAC3p-");
 
-/* PÁGINAS */
 const pages=document.querySelectorAll('.page');
 let i=0;
 function show(){pages.forEach(p=>p.classList.remove('active'));pages[i].classList.add('active')}
 function next(){if(i<pages.length-1){i++;show()}}
 function prev(){if(i>0){i--;show()}}
 
-/* HORAS 06:00 → 20:00 */
+// HORAS 06:00–20:00 (ARREGLADO)
 function cargarHoras(){
-  const s=document.getElementById("horaSalida");
-  const l=document.getElementById("horaLlegada");
   for(let h=6;h<=20;h++){
-    const t=String(h).padStart(2,"0")+":00";
-    s.add(new Option(t,t));
-    l.add(new Option(t,t));
+    const o=document.createElement("option");
+    o.value=o.textContent=`${String(h).padStart(2,'0')}:00`;
+    horaSalida.appendChild(o.cloneNode(true));
+    horaLlegada.appendChild(o);
   }
 }
 cargarHoras();
 
-/* FIRMAS */
-function setupCanvas(id){
-  const c=document.getElementById(id);
-  const ctx=c.getContext("2d");
-  let d=false;
-  c.onmousedown=()=>{d=true;ctx.beginPath()}
-  c.onmouseup=()=>d=false
-  c.onmousemove=e=>{if(d){ctx.lineTo(e.offsetX,e.offsetY);ctx.stroke()}}
-  return c;
+// FIRMAS
+function firma(canvas){
+  const ctx=canvas.getContext("2d");
+  let draw=false;
+  canvas.onmousedown=()=>draw=true;
+  canvas.onmouseup=()=>draw=false;
+  canvas.onmousemove=e=>{if(draw){ctx.lineTo(e.offsetX,e.offsetY);ctx.stroke()}};
 }
-const firmaOp=setupCanvas("firmaOperario");
-const firmaCl=setupCanvas("firmaCliente");
+firma(firmaOperario);
+firma(firmaCliente);
 
-/* PDF */
+// FINALIZAR
 function finalizar(){
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF();
 
-  pdf.text("PARTE DE SERVICIO – ITT 1878",60,15);
+  pdf.addImage("assets/logos/logo-itt-1878.png","PNG",75,5,60,20);
+  pdf.text("PARTE DE SERVICIO – ITT 1878",60,30);
 
-  let y=25;
-  const f=new FormData(form);
-  f.forEach((v,k)=>{
-    pdf.text(`${k.replace('_',' ').toUpperCase()}: ${v}`,10,y);
+  let y=40;
+  const data=new FormData(form);
+  data.forEach((v,k)=>{
+    pdf.text(`${k}: ${v}`,10,y);
     y+=7;
   });
 
-  pdf.text("Firma operario:",10,y+5);
-  pdf.addImage(firmaOp.toDataURL(),"PNG",10,y+10,60,25);
+  pdf.addImage(firmaOperario.toDataURL(),"PNG",10,y,80,30);
+  pdf.addImage(firmaCliente.toDataURL(),"PNG",110,y,80,30);
 
-  pdf.text("Firma cliente:",110,y+5);
-  pdf.addImage(firmaCl.toDataURL(),"PNG",110,y+10,60,25);
+  const base64=pdf.output("datauristring").split(",")[1];
+
+  emailjs.send("service_k44yx7g","template_6i0hl7v",{
+    to_email:"kevin.gancino@cm93.com",
+    pdf_base64:base64
+  });
 
   pdf.save("parte-servicio.pdf");
-  alert("PDF generado correctamente");
+  alert("PDF generado y enviado correctamente");
 }
 </script>
+
+<style>
+.input{
+  width:100%;
+  border:1px solid #ccc;
+  padding:8px;
+  border-radius:6px;
+}
+label{font-weight:600;margin-top:6px;display:block}
+</style>
 
 </body>
 </html>
